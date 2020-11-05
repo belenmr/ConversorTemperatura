@@ -1,13 +1,25 @@
 package com.example.conversortemperatura
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RadioGroup
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
 
-const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
+
+    private val TAG = "MainActivity"
+    private lateinit var etKelvin : EditText
+    private lateinit var rgTemp : RadioGroup
+    private lateinit var btnConvert : Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -15,12 +27,57 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
+        //setupToolbar()
+        etKelvin = findViewById(R.id.etKelvin)
+        rgTemp = findViewById(R.id.rgTemp)
+        btnConvert = findViewById(R.id.btnConvert)
+
+        btnConvert.setOnClickListener{ convertTemperature()}
+        
 
     }
 
 
+    private fun convertTemperature() {
+        val tempKelvin = etKelvin.toString()
+        val tempKelvinDouble = tempKelvin.toDouble()
+        if (tempKelvin.isNotEmpty()){
+            val result = when(getSelectedRadioButton()){
+                R.id.rbCelsius -> convertToCelsius(tempKelvinDouble)
+                R.id.rbFarenheit -> convertToFarenheit(tempKelvinDouble)
+                else -> showMessage("Seleccione una opcion")
+            }
+        } else {
+            showMessage("Ingrese una temperatura")
+        }
+
+        KeyBoardUtil.hideKeyboard(this)
+    }
+
+    private fun convertToFarenheit(temperatureKelvin: Double) {
+        val result = ((temperatureKelvin - 273.15) * 9/5) + 32
+        launchResultActivity(result)
+    }
+
+    private fun convertToCelsius(temperatureKelvin: Double) {
+        val result = temperatureKelvin - 273.15
+        launchResultActivity(result)
+    }
+
+    private fun getSelectedRadioButton(): Int {
+        return rgTemp.checkedRadioButtonId
+    }
 
 
+    private fun launchResultActivity(result: Double) {
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra("RESULTADO",result)
+        startActivity(intent)
+    }
+
+    private fun showMessage(text: String) {
+        Toast.makeText(this, text,Toast.LENGTH_LONG).show()
+    }
 
 
     override fun onStart(){
