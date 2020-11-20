@@ -16,14 +16,18 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
+        setupUI()
+    }
+
+    private fun setupUI() {
+        txtResult = findViewById(R.id.txtResult)
+
         val bundle = intent.extras
-        val tempResult =  bundle?.getInt("RESULTADO") ?: 0
+        val tempResult =  bundle?.getDouble("RESULT") ?: 0
 
         Log.i(TAG, "El resultado es $tempResult")
         txtResult.text = tempResult.toString()
     }
-
-
 
 
     override fun onStart(){

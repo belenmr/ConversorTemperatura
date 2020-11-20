@@ -32,16 +32,14 @@ class MainActivity : AppCompatActivity() {
         rgTemp = findViewById(R.id.rgTemp)
         btnConvert = findViewById(R.id.btnConvert)
 
-        btnConvert.setOnClickListener{ convertTemperature()}
-        
-
+        btnConvert.setOnClickListener{ convertTemperature() }
     }
 
 
     private fun convertTemperature() {
-        val tempKelvin = etKelvin.toString()
-        val tempKelvinDouble = tempKelvin.toDouble()
+        val tempKelvin = etKelvin.text.toString()
         if (tempKelvin.isNotEmpty()){
+            val tempKelvinDouble = tempKelvin.toDouble()
             val result = when(getSelectedRadioButton()){
                 R.id.rbCelsius -> convertToCelsius(tempKelvinDouble)
                 R.id.rbFarenheit -> convertToFarenheit(tempKelvinDouble)
@@ -71,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchResultActivity(result: Double) {
         val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra("RESULTADO",result)
+        intent.putExtra("RESULT",result)
         startActivity(intent)
     }
 
