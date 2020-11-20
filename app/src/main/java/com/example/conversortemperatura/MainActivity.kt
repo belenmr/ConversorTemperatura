@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etKelvin : EditText
     private lateinit var rgTemp : RadioGroup
     private lateinit var btnConvert : Button
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i(TAG, "onCreate")
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        //setupToolbar()
+        setupToolbar()
         etKelvin = findViewById(R.id.etKelvin)
         rgTemp = findViewById(R.id.rgTemp)
         btnConvert = findViewById(R.id.btnConvert)
@@ -75,6 +77,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showMessage(text: String) {
         Toast.makeText(this, text,Toast.LENGTH_LONG).show()
+    }
+
+    private fun setupToolbar(){
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Conversor de temperatura"
     }
 
 
